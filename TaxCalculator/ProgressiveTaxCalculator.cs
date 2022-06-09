@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace TaxCalculator
 {
-    public class Calculator
+    public class ProgressiveTaxCalculator
     {
         private List<TaxBracket> _taxBracket { get; set; }
 
-        public Calculator()
+        public ProgressiveTaxCalculator()
         {
             _taxBracket = new List<TaxBracket>();
             _taxBracket.Add(new TaxBracket { TaxRate = 0.33M, LowerBracket = 0, UpperBracket = 24000 });
