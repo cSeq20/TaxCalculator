@@ -12,9 +12,10 @@ namespace TaxCalculator
         {
             _taxBracket = new List<TaxBracket>();
             _taxBracket.Add(new TaxBracket { TaxRate = 0.33M, LowerBracket = 0, UpperBracket = 24000 });
-            _taxBracket.Add(new TaxBracket { TaxRate = 0.2M, LowerBracket = 24000, UpperBracket = 48000 });
             _taxBracket.Add(new TaxBracket { TaxRate = 0.175M, LowerBracket = 48000, UpperBracket = 80000 });
+            _taxBracket.Add(new TaxBracket { TaxRate = 0.2M, LowerBracket = 24000, UpperBracket = 48000 });
             _taxBracket.Add(new TaxBracket { TaxRate = 0.48M, LowerBracket = 80000 });
+            _taxBracket = _taxBracket.OrderBy(bracket => bracket.LowerBracket).ToList();
         }
 
         public decimal Calculate(decimal earnings, int numberOfBrackets)
