@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace TaxCalculator
 {
-    public interface ITaxBracket
+    public interface ICalculator
     {
-        decimal CalculateTaxInBracket(decimal earinings);
+        decimal Calculate(decimal earnings, bool taxExempt = false);
     }
 }

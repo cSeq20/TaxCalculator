@@ -4,16 +4,16 @@ using System.Linq;
 
 namespace TaxCalculator
 {
-    public class Calculator
+    public class ProgressiveCalculator : ICalculator
     {
         private  List<ProgressiveTaxBracket> taxBrackets;
 
-        public Calculator()
+        public ProgressiveCalculator()
         {
             InitializeProgressiveTaxBrackets();
         }
 
-        public decimal CalculateProgressiveTax(decimal earnings, bool taxExempt = false)
+        public decimal Calculate(decimal earnings, bool taxExempt = false)
         {
             var earningsRounded = Math.Floor(earnings);
             var taxAmount = 0.00M;
