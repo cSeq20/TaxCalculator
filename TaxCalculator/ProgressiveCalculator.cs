@@ -6,37 +6,28 @@ namespace TaxCalculator
 {
     public class ProgressiveCalculator : ICalculator
     {
-        private  List<ProgressiveTaxBracket> taxBrackets;
+        private  List<ITaxRule> taxRules;
 
         public ProgressiveCalculator()
         {
-            InitializeProgressiveTaxBrackets();
+            InitializeProgressivetaxRules();
         }
 
         public decimal Calculate(decimal earnings, bool taxExempt = false)
         {
-            var earningsRounded = Math.Floor(earnings);
-            var taxAmount = 0.00M;
+            if (taxExempt) return 0;
 
-            if (!taxExempt)
-            {
-                foreach (var bracket in taxBrackets.Where(brk => brk.LowerBracket < earnings))
-                {
-                    taxAmount += bracket.CalculateTaxInBracket(earningsRounded);
-                }
-            }
-            
-            return taxAmount;
+            var earningsRounded = Math.Floor(earnings);
+            return taxRules.Sum(rule => rule.CalculateTax(earningsRounded));
         }
 
-        private void InitializeProgressiveTaxBrackets()
+        private void InitializeProgressivetaxRules()
         {
-            taxBrackets = new List<ProgressiveTaxBracket>();
-            taxBrackets.Add(new ProgressiveTaxBracket { TaxRate = 0.33M, LowerBracket = 0, UpperBracket = 24000 });
-            taxBrackets.Add(new ProgressiveTaxBracket { TaxRate = 0.175M, LowerBracket = 48000, UpperBracket = 80000 });
-            taxBrackets.Add(new ProgressiveTaxBracket { TaxRate = 0.2M, LowerBracket = 24000, UpperBracket = 48000 });
-            taxBrackets.Add(new ProgressiveTaxBracket { TaxRate = 0.48M, LowerBracket = 80000, UpperBracket = decimal.MaxValue });
-            taxBrackets = taxBrackets.OrderBy(bracket => bracket.LowerBracket).ToList();
+            taxRules = new List<ITaxRule>();
+            taxRules.Add(new ParentTaxRule { TaxRate = 0.33M, LowerBracket = 0, UpperBracket = 24000, HasKids = false });
+            taxRules.Add(new ParentTaxRule { TaxRate = 0.175M, LowerBracket = 48000, UpperBracket = 80000, HasKids = false });
+            taxRules.Add(new ParentTaxRule { TaxRate = 0.2M, LowerBracket = 24000, UpperBracket = 48000, HasKids = false });
+            taxRules.Add(new ParentTaxRule { TaxRate = 0.48M, LowerBracket = 80000, UpperBracket = decimal.MaxValue, HasKids = true });
         }
     }
 }

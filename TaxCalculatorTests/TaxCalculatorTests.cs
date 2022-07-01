@@ -61,7 +61,7 @@ namespace TaxCalculatorTests
         {
             var taxCalculator = new ProgressiveCalculator();
             var taxAmount = taxCalculator.Calculate(150000); //chris' salary
-            Assert.Equal(51920, taxAmount);
+            Assert.Equal(50920, taxAmount);
         }
     }
 }
